@@ -2,6 +2,7 @@ package com.daryljewkes.drawerlayout;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -18,6 +19,7 @@ public class MyActivity extends ActionBarActivity implements AdapterView.OnItemC
     private DrawerLayout drawerLayout;
     private ListView listView;
     private String[] planets;
+    private ActionBarDrawerToggle drawerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,32 @@ public class MyActivity extends ActionBarActivity implements AdapterView.OnItemC
         listView = (ListView) findViewById(R.id.drawerListLeft);
         listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, planets));
         listView.setOnItemClickListener(this);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        drawerListener = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                Toast.makeText(MyActivity.this, " Drawer Opened", Toast.LENGTH_SHORT ).show();
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                Toast.makeText(MyActivity.this, " Drawer Closed", Toast.LENGTH_SHORT ).show();
+            }
+        };
+        drawerLayout.setDrawerListener(drawerListener);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerListener.syncState();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,6 +74,11 @@ public class MyActivity extends ActionBarActivity implements AdapterView.OnItemC
         if (id == R.id.action_settings) {
             return true;
         }
+
+        if (drawerListener.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
