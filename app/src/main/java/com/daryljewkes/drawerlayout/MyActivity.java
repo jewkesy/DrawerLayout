@@ -1,6 +1,7 @@
 package com.daryljewkes.drawerlayout;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -80,6 +81,12 @@ public class MyActivity extends ActionBarActivity implements AdapterView.OnItemC
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerListener.onConfigurationChanged(newConfig);
     }
 
     @Override
