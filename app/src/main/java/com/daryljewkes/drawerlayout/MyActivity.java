@@ -54,5 +54,15 @@ public class MyActivity extends ActionBarActivity implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this, planets[position] + " was selected", Toast.LENGTH_LONG).show();
+        selectItem(position);
+    }
+
+    public void selectItem(int position) {
+        listView.setItemChecked(position, true);
+        setTitle(planets[position]);
+    }
+
+    public void setTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 }
