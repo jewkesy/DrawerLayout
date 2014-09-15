@@ -6,18 +6,29 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
-public class MyActivity extends ActionBarActivity {
+public class MyActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     private DrawerLayout drawerLayout;
     private ListView listView;
+    private String[] planets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        planets = getResources().getStringArray(R.array.planets);
+        listView = (ListView) findViewById(R.id.drawerListLeft);
+        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, planets));
+        listView.setOnItemClickListener(this);
     }
 
 
@@ -38,5 +49,10 @@ public class MyActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(this, planets[position] + " was selected", Toast.LENGTH_LONG).show();
     }
 }
